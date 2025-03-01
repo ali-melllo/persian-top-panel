@@ -11,21 +11,26 @@ import {
 } from "@/components/Drawer"
 import { cx, focusRing } from "@/lib/utils"
 
-import { BarChartBig, Compass, Menu, Settings2, Table2 } from "lucide-react"
+import { BarChartBig, Factory, Menu, PersonStanding, Table2 } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 
 const navigation = [
-  { name: "Reports", href: siteConfig.baseLinks.reports, icon: BarChartBig },
+  { name: "Overview", href: siteConfig.baseLinks.reports, icon: BarChartBig },
   {
-    name: "Transactions",
+    name: "Orders List",
     href: siteConfig.baseLinks.transactions,
     icon: Table2,
   },
   {
-    name: "Settings",
-    href: siteConfig.baseLinks.settings.audit,
-    icon: Settings2,
+    name: "Agents",
+    href: siteConfig.baseLinks.agents,
+    icon: PersonStanding,
+  },
+  {
+    name: "Service Types",
+    href: siteConfig.baseLinks.serviceTypes,
+    icon: Factory,
   },
 ] as const
 
@@ -51,7 +56,7 @@ export default function MobileSidebar() {
         </DrawerTrigger>
         <DrawerContent className="sm:max-w-lg">
           <DrawerHeader>
-            <DrawerTitle>Acme Corp.</DrawerTitle>
+            <DrawerTitle>Persian top</DrawerTitle>
           </DrawerHeader>
           <DrawerBody>
             <nav
@@ -91,7 +96,7 @@ export default function MobileSidebar() {
                   ))}
                 </ul>
               </div>
-              <div>
+              {/* <div>
                 <span
                   className={cx(
                     "block h-6 text-xs font-medium leading-6 text-gray-500 transition-opacity dark:text-gray-400",
@@ -116,7 +121,7 @@ export default function MobileSidebar() {
                     </Link>
                   </li>
                 </ul>
-              </div>
+              </div> */}
             </nav>
           </DrawerBody>
         </DrawerContent>
