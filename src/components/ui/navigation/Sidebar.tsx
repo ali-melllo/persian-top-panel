@@ -225,7 +225,7 @@ export function Sidebar({ isCollapsed, toggleSidebar }: SidebarProps) {
           )}
         >
           <a aria-label="Home Link" href="/">
-            Acme Corp.
+            Persian top Panel
           </a>
         </span>
         <div className="flex items-center gap-1 sm:gap-2">
