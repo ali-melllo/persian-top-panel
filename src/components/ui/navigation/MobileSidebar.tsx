@@ -56,7 +56,7 @@ export default function MobileSidebar() {
         </DrawerTrigger>
         <DrawerContent className="sm:max-w-lg">
           <DrawerHeader>
-            <DrawerTitle>Persian top</DrawerTitle>
+            <DrawerTitle>Pure Materials</DrawerTitle>
           </DrawerHeader>
           <DrawerBody>
             <nav

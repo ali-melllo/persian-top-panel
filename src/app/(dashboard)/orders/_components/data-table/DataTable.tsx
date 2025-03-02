@@ -97,14 +97,10 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
       <Tabs defaultValue="all">
         <TabsList className="w-full flex justify-between">
           <TabsTrigger className="font-bold" value="all">All</TabsTrigger>
-          <TabsTrigger className="font-bold" value="quote-request">quote-request</TabsTrigger>
-          <TabsTrigger className="font-bold" value="price-alert">Price alert</TabsTrigger>
-          <TabsTrigger className="font-bold" value="expert-assigned">Expert Assigned</TabsTrigger>
-          <TabsTrigger className="font-bold" value="expert-checkout">Expert Checkout</TabsTrigger>
-          <TabsTrigger className="font-bold" value="in-construction">In Construction</TabsTrigger>
-          <TabsTrigger className="font-bold" value="done">Done</TabsTrigger>
-          <TabsTrigger className="font-bold" value="canceled">Canceled</TabsTrigger>
-          <TabsTrigger className="font-bold" value="suspended">Suspended</TabsTrigger>
+          <TabsTrigger className="font-bold" value="initial-contact">Initial Contact</TabsTrigger>
+          <TabsTrigger className="font-bold" value="information-sent">Information Sent</TabsTrigger>
+          <TabsTrigger className="font-bold" value="personal-meeting">Personal Meeting</TabsTrigger>
+          <TabsTrigger className="font-bold" value="purchase-offer">Purchase Offer</TabsTrigger>
         </TabsList>
         <TabsContent value="account"></TabsContent>
       </Tabs>

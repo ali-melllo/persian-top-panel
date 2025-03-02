@@ -11,7 +11,7 @@ interface Order {
   quantity: number;
   estimated_price: number;
   progress: number;
-  status: "quote-request" | "price-alert" | "expert-assigned" | "expert-checkout" | "in-construction" | "done" | "canceled" | "suspended";
+  status: "initial-contact" | "information-sent" | "personal-meeting" | "purchase-offer" ;
   actions?: React.ReactNode | null;
 }
 export const orders: Order[] = [
@@ -27,7 +27,7 @@ export const orders: Order[] = [
     quantity: 200,
     estimated_price: 15000,
     progress: 70,
-    status: "in-construction",
+    status: "personal-meeting", // ✅ Updated
     actions: null,
   },
   {
@@ -42,7 +42,7 @@ export const orders: Order[] = [
     quantity: 50,
     estimated_price: 35000,
     progress: 30,
-    status: "expert-checkout",
+    status: "initial-contact", // ✅ Updated
     actions: null,
   },
   {
@@ -57,7 +57,7 @@ export const orders: Order[] = [
     quantity: 1000,
     estimated_price: 5000,
     progress: 100,
-    status: "done",
+    status: "purchase-offer", // ✅ Updated
     actions: null,
   },
   {
@@ -72,7 +72,7 @@ export const orders: Order[] = [
     quantity: 500,
     estimated_price: 25000,
     progress: 0,
-    status: "quote-request",
+    status: "information-sent", // ✅ Updated
     actions: null,
   },
   {
@@ -87,7 +87,7 @@ export const orders: Order[] = [
     quantity: 30,
     estimated_price: 45000,
     progress: 20,
-    status: "price-alert",
+    status: "personal-meeting", // ✅ Updated
     actions: null,
   },
   {
@@ -102,7 +102,7 @@ export const orders: Order[] = [
     quantity: 200,
     estimated_price: 12000,
     progress: 40,
-    status: "expert-assigned",
+    status: "information-sent", // ✅ Updated
     actions: null,
   },
   {
@@ -117,7 +117,7 @@ export const orders: Order[] = [
     quantity: 80,
     estimated_price: 28000,
     progress: 20,
-    status: "suspended",
+    status: "initial-contact", // ✅ Updated
     actions: null,
   },
   {
@@ -132,7 +132,7 @@ export const orders: Order[] = [
     quantity: 500,
     estimated_price: 22000,
     progress: 60,
-    status: "canceled",
+    status: "purchase-offer", // ✅ Updated
     actions: null,
   },
 ];

@@ -6,89 +6,48 @@ import { ColumnDef, createColumnHelper } from "@tanstack/react-table"
 import { DataTableColumnHeader } from "./DataTableColumnHeader"
 import { Button } from "@/components/Button"
 import { Drawer, DrawerClose, DrawerContent, DrawerFooter, DrawerTrigger } from "@/components/Drawer"
-import { CircleCheck, Ellipsis, Mail, Package, Phone, User } from "lucide-react"
+import { CheckCheck, CircleCheck, Ellipsis, Mail, Package, Phone, User } from "lucide-react"
 import { cx } from "@/lib/utils"
+
 
 const columnHelper = createColumnHelper<any>()
 const statusColorMap: Record<string, string> = {
-  "quote-request": "border border-yellow-500 !text-yellow-500",
-  "price-alert": "border border-orange-500 !text-orange-500",
-  "expert-assigned": "border border-blue-500 !text-blue-500",
-  "expert-checkout": "border border-indigo-500 !text-indigo-500",
-  "in-construction": "border border-purple-500 !text-purple-500",
-  "done": "border border-green-500 !text-green-500",
-  "canceled": "border border-red-500 !text-red-500",
-  "suspended": "border border-gray-500 !text-gray-500"
+  "initial-contact": "border border-yellow-500 !text-yellow-500",
+  "information-sent": "border border-blue-500 !text-blue-500",
+  "personal-meeting": "border border-orange-500 !text-orange-500",
+  "purchase-offer": "border border-green-500 !text-green-500"
 };
 
-const activity = [
+
+const mockData = [
   {
-    id: 1,
-    type: "quote-requested",
-    person: { name: "Emily Ross" },
-    description: "requested a new quote",
-    date: "3d ago",
-    dateTime: "2024-02-26T14:20",
+    status: "initial-contact",
+    description: "First interaction with the client, introducing our services.",
+    date: "2025-03-01T10:00:00Z",
   },
   {
-    id: 2,
-    type: "price-alert",
-    person: { name: "Daniel Green" },
-    description: "exact price was delivered by phone call from arshia",
-    date: "2d ago",
-    dateTime: "2024-02-27T11:45",
+    status: "information-sent",
+    description: "Sent detailed information about our offerings and pricing.",
+    date: "2025-03-02T14:30:00Z",
   },
   {
-    id: 3,
-    type: "expert-assigned",
-    person: { name: "Sophia Carter" },
-    description: "Abbas was assigned to Emily by arshia for finalizing the factor",
-    date: "1d ago",
-    dateTime: "2024-02-28T09:30",
+    status: "personal-meeting",
+    description: "Scheduled and attended a meeting to discuss client needs.",
+    date: "2025-03-05T09:00:00Z",
   },
   {
-    id: 4,
-    type: "expert-checkout",
-    person: { name: "Liam Johnson" },
-    description: "Abbas Confirmed the construction service with emily for 1,500 $",
-    date: "12h ago",
-    dateTime: "2024-02-28T21:10",
+    status: "purchase-offer",
+    description: "Client received a purchase offer and is considering options.",
+    date: "2025-03-07T16:45:00Z",
   },
-  {
-    id: 5,
-    type: "in-construction",
-    person: { name: "Olivia Brown" },
-    description: "The project is currently in construction. with estimated 3 months deadline",
-    date: "6h ago",
-    dateTime: "2024-02-29T03:15",
-  },
-  {
-    id: 6,
-    type: "done",
-    person: { name: "Noah Smith" },
-    description: "The project has been successfully completed and confirmed by emily.",
-    date: "",
-    dateTime: "2024-02-29T07:45",
-  },
-  // {
-  //   id: 7,
-  //   type: "canceled",
-  //   person: { name: "Emma Wilson" },
-  //   description: "The project has been canceled.",
-  //   date: "30min ago",
-  //   dateTime: "2024-02-29T09:15",
-  // },
-  // {
-  //   id: 8,
-  //   type: "suspended",
-  //   person: { name: "Jack Anderson" },
-  //   description: "The project has been temporarily suspended.",
-  //   date: "10min ago",
-  //   dateTime: "2024-02-29T09:35",
-  // },
 ];
 
-
+const statusOrder = [
+  "initial-contact",
+  "information-sent",
+  "personal-meeting",
+  "purchase-offer",
+];
 
 export const columns = [
   columnHelper.accessor("customer_name", {
@@ -268,49 +227,65 @@ export const columns = [
 
               <>
                 <ul role="list" className="space-y-6 mt-10">
-                  {activity.map((activityItem, activityItemindex) => (
-                    <li key={activityItem.id} className="relative flex gap-x-4">
-                      <div
-                        className={cx(
-                          activityItemindex === activity.length - 1 ? "h-6" : "-bottom-6",
-                          "absolute left-0 top-0 flex w-6 justify-center",
+                  {statusOrder.map((status, index) => {
+                    const isCompleted = index < statusOrder.indexOf(row.original.status);
+                    const isCurrent = index === statusOrder.indexOf(row.original.status);
+
+                    return (
+                      <li key={status} className="relative flex gap-x-4 items-center">
+                        {/* Vertical line for timeline */}
+                        {index !== statusOrder.length - 1 && (
+                          <div className="absolute left-3 top-10 h-full w-px bg-gray-300 dark:bg-gray-700" />
                         )}
-                      >
-                        <span className="w-px bg-gray-200 dark:bg-gray-800" aria-hidden="true" />
-                      </div>
-                      <>
-                        <div className="relative flex size-6 flex-none items-center justify-center bg-white dark:bg-[#090E1A]">
-                          {activityItemindex === activity.length - 1 ?
-                            <div className="size-1.5 rounded-full bg-gray-100 ring-1 ring-gray-300 dark:bg-[#090E1A] dark:ring-gray-700" />
-                            :
-                            <div className="relative flex size-6 flex-none items-center justify-center bg-white dark:bg-[#090E1A]">
-                              <CircleCheck
-                                className="size-5 text-blue-500 dark:text-blue-500"
-                                aria-hidden="true"
-                              />
-                            </div>
-                          }
-                        </div>
-                        <p className="flex-auto py-0.5 items-center text-xs leading-5 text-gray-500 dark:text-gray-500">
-                          <span className="font-medium text-gray-900 dark:text-gray-50">
-                            {activityItem.type}
-                          </span>
-                          <span className="ml-1">{activityItem.description} </span>
-                        </p>
-                        <time
-                          dateTime={activityItem.dateTime}
-                          className="flex-none py-0.5 text-xs leading-5 text-gray-500 dark:text-gray-500"
+
+                        {/* Step Icon */}
+                        <div
+                          className={cx(
+                            "relative flex size-6 flex-none items-center justify-center rounded-full border-2",
+                            isCompleted
+                              ? "border-green-500 bg-green-500 text-white"
+                              : isCurrent
+                                ? "border-blue-500 bg-white dark:bg-gray-900 text-blue-500"
+                                : "border-gray-300 bg-gray-100 dark:bg-gray-800 opacity-50"
+                          )}
                         >
-                          {activityItem.date}
-                        </time>
-                        {activityItemindex !== activity.length - 1 &&
-                          <Button variant="secondary" className="h-6 text-xs cursor-pointer">
-                            Details
-                          </Button>}
-                      </>
-                    </li>
-                  ))}
+                          {isCompleted ? (
+                            <CheckCheck className="size-4 text-white" />
+                          ) : (
+                            <CircleCheck className="size-4" />
+                          )}
+                        </div>
+
+                        {/* Status Label */}
+                        <div className="flex flex-col">
+                          <span className={cx("font-medium", isCurrent ? "text-blue-500" : isCompleted ? "text-white" : "text-gray-500")}>
+                            {status.replace("-", " ")}
+                          </span>
+                        </div>
+
+                        <div className="flex flex-col">
+                          <span className={cx(" text-xs", isCurrent ? "text-blue-500" : isCompleted ? "text-white" : "text-gray-500")}>
+                            {mockData.find((x) => x.status === status)?.description}
+                          </span>
+                        </div>
+
+                        <div className="flex flex-col">
+                          <span className={cx(" text-xs", isCurrent ? "text-blue-500" : isCompleted ? "text-white" : "text-gray-500")}>
+                            {
+                              new Date(mockData.find((x) => x.status === status)?.date || "").toLocaleDateString("en-GB", {
+                                day: "2-digit",
+                                month: "2-digit",
+                                year: "numeric",
+                              })
+                            }
+                          </span>
+                        </div>
+
+                      </li>
+                    );
+                  })}
                 </ul>
+
               </>
             </div>
 
@@ -320,12 +295,12 @@ export const columns = [
                   Close
                 </Button>
               </DrawerClose>
-              <Button>
-                {row.original.status === "quote-request" ? "User is Alerted for exact Price" :
-                  row.original.status === "price-alert" ? "Assign order To Abbas" :
-                    row.original.status === "expert-assigned" ? "Send Abbas to Confirm order" :
-                      row.original.status === "expert-checkout" ? "Start construction" :
-                        row.original.status === "in-construction" ? "Construction is Done" : "Show Details"}
+              <Button className="flex justify-center items-center gap-2">
+                {row.original.status === "initial-contact" ? "User Received exact information" :
+                  row.original.status === "information-sent" ? "Set Up Personal Meeting" :
+                    row.original.status === "personal-meeting" ? "User Purchased Offer" :
+                      row.original.status === "done" ? "Start construction" : "Show Details"}
+                <CheckCheck />
               </Button>
             </DrawerFooter>
           </DrawerContent>

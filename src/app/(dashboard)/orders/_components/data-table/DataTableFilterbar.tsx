@@ -1,9 +1,20 @@
 "use client"
 
+import { useState, useRef } from "react"
+import { useDebouncedCallback } from "use-debounce"
 import { Button } from "@/components/Button"
 import { Input } from "@/components/Input"
-import { useRef, useState } from "react"
-import { useDebouncedCallback } from "use-debounce"
+import { Textarea } from "@/components/Textarea"
+import { Label } from "@/components/Label"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/Dialog"
 
 interface FilterBarProps {
   globalFilter: string
@@ -12,10 +23,7 @@ interface FilterBarProps {
   setRegisteredOnly: (checked: boolean) => void
 }
 
-export function FilterBar({
-  globalFilter,
-  setGlobalFilter,
-}: FilterBarProps) {
+export function FilterBar({ globalFilter, setGlobalFilter }: FilterBarProps) {
   const [searchTerm, setSearchTerm] = useState(globalFilter)
   const searchInputRef = useRef<HTMLInputElement>(null)
 
@@ -35,8 +43,28 @@ export function FilterBar({
     searchInputRef.current?.focus()
   }
 
+  // State for form fields
+  const [formData, setFormData] = useState({
+    name: "",
+    company: "",
+    email: "",
+    location: "",
+    phoneNumber: "",
+    description: "",
+  })
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value })
+  }
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    console.log("Form submitted:", formData)
+    // Add API request here if needed
+  }
+
   return (
-    <div className="flex flex-wrap items-center justify-between gap-6 rounded-lg bg-gray-50/50 px-5 py-2 ring-1 ring-gray-200 dark:bg-[#090E1A] dark:ring-gray-800">
+    <div className="flex flex-wrap items-center gap-6 rounded-lg  py-2">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-50">
@@ -47,7 +75,7 @@ export function FilterBar({
           </p>
         </div>
       </div>
-      <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-fit">
+      <div className="flex ml-auto flex-col sm:flex-row gap-2 w-full sm:w-fit">
         <Input
           ref={searchInputRef}
           className="w-full sm:w-96"
@@ -66,20 +94,61 @@ export function FilterBar({
           </Button>
         )}
       </div>
-      {/* <div className="flex items-center gap-2.5">
-        <Switch
-          size="small"
-          id="registered"
-          checked={registeredOnly}
-          onCheckedChange={setRegisteredOnly}
-        />
-        <Label
-          htmlFor="registered"
-          className="text-base text-gray-600 sm:text-sm"
-        >
-          Registered agents only
-        </Label>
-      </div> */}
+
+      {/* Create New Order Form */}
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button>Create New +</Button>
+        </DialogTrigger>
+        <DialogContent className="max-w-xl">
+          <DialogHeader>
+            <DialogTitle>Create New Order</DialogTitle>
+            <DialogDescription>
+              Fill in the details below to create a new order.
+            </DialogDescription>
+          </DialogHeader>
+          <form onSubmit={handleSubmit}>
+            <div className="grid gap-4 py-4">
+              {[
+                { id: "name", label: "Name", type: "text" },
+                { id: "company", label: "Company", type: "text" },
+                { id: "email", label: "Email", type: "email" },
+                { id: "location", label: "Location", type: "text" },
+                { id: "phoneNumber", label: "Phone Number", type: "tel" },
+              ].map(({ id, label, type }) => (
+                <div key={id} className="flex flex-col gap-3 items-start">
+                  <Label htmlFor={id} className="text-right">
+                    {label}
+                  </Label>
+                  <Input
+                    id={id}
+                    type={type}
+                    value={formData[id as keyof typeof formData]}
+                    onChange={handleChange}
+                    className="col-span-3"
+                  />
+                </div>
+              ))}
+
+              <div className="flex flex-col items-start gap-4">
+                <Label htmlFor="description" className="text-right">
+                  Description
+                </Label>
+                <Textarea
+                  id="description"
+                  value={formData.description}
+                  onChange={handleChange}
+                  className="col-span-3"
+                />
+              </div>
+            </div>
+
+            <DialogFooter>
+              <Button type="submit">Save Order</Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

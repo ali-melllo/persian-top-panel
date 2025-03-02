@@ -88,7 +88,7 @@ export function Sidebar({ isCollapsed, toggleSidebar }: SidebarProps) {
                 )}
               >
                 <a aria-label="Home Link" href="/">
-                  Persian Top Panel
+                  Pure Materials
                 </a>
               </span>
             </div>
@@ -225,7 +225,7 @@ export function Sidebar({ isCollapsed, toggleSidebar }: SidebarProps) {
           )}
         >
           <a aria-label="Home Link" href="/">
-            Persian top Panel
+            Pure Materials
           </a>
         </span>
         <div className="flex items-center gap-1 sm:gap-2">
